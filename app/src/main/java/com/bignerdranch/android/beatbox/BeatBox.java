@@ -50,7 +50,7 @@ public class BeatBox {
 
     }
 
-    private void play(Sound sound){
+    public void play(Sound sound){
         Integer soundId = sound.getSoundId();
         if(soundId == null) {
             return;
@@ -66,5 +66,9 @@ public class BeatBox {
 
     public List<Sound> getSounds() {
         return mSounds;
+    }
+
+    public void release(){
+        mSoundPool.release();
     }
 }
