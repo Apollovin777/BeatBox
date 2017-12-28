@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
+
 import com.bignerdranch.android.beatbox.databinding.FragmentBeatBoxBinding;
 import com.bignerdranch.android.beatbox.databinding.ListItemSoundBinding;
 
@@ -34,12 +36,34 @@ public class BeatBoxFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentBeatBoxBinding binding = DataBindingUtil.inflate(
+        final FragmentBeatBoxBinding binding = DataBindingUtil.inflate(
                                     inflater,R.layout.fragment_beat_box,container,false);
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager
                 (getActivity(), 3));
         binding.recyclerView.setAdapter(new SoundAdapter(mBeatBox.getSounds()));
+
+        binding.seekBar.setProgress(100);
+        binding.seekBarText.setText("Speed rate " + binding.seekBar.getProgress() + "%");
+        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int progressValue = seekBar.getProgress();
+                mBeatBox.setSpeedRate(progressValue/100.0f);
+                binding.seekBarText.setText("Speed rate " + seekBar.getProgress() + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
 
         return binding.getRoot();
     }

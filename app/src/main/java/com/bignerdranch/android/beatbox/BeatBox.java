@@ -6,6 +6,8 @@ import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
+import android.widget.SeekBar;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,14 @@ public class BeatBox {
     private static final String SOUNDS_FOLDER = "sample_sounds";
     private static final int MAX_SOUNDS = 5;
 
+    private float mSpeedRate = 1.0f;
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
     private SoundPool mSoundPool;
 
+    public void setSpeedRate(float speedRate) {
+        mSpeedRate = speedRate;
+    }
 
     public BeatBox(Context context) {
         mAssets = context.getAssets();
@@ -55,7 +61,7 @@ public class BeatBox {
         if(soundId == null) {
             return;
         }
-        mSoundPool.play(soundId,1.0f, 1.0f,1,0,1.0f);
+        mSoundPool.play(soundId,1.0f, 1.0f,1,0,mSpeedRate);
     }
 
     private void load(Sound sound)throws IOException{
